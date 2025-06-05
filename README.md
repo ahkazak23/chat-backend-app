@@ -7,10 +7,8 @@ This project is a RESTful backend for a basic group messaging system. Built usin
 - [Features](#features)
 - [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Database Migration](#database-migration)
+- [Setup and Installation](#setup-and-installation)
 - [API Endpoints](#api-endpoints)
-- [Running Tests](#running-tests)
 - [Optional Improvements](#optional-improvements)
 - [License](#license)
 
@@ -47,40 +45,66 @@ This project is a RESTful backend for a basic group messaging system. Built usin
 
 ````
 
-## Installation
+## Setup and Installation
 
-1. Clone the repository:
+### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/ahkazak23/chat-backend-app.git
 cd chat-backend-app
 ````
 
-2. Install dependencies:
+### 2. Install dependencies
 
 ```bash
 composer install
 ```
 
-3. Start the development server:
+Make sure PHP 7.4+ and Composer are installed on your system.
 
-```bash
-php -S localhost:8080 -t public
-```
+### 3. Run the migration script
 
-## Database Migration
-
-Run the migration script to create required tables:
+Create required database tables:
 
 ```bash
 php migrate.php
 ```
 
-> Default DB location is `data/database.sqlite`.
-> You can override it with an environment variable:
+By default, the database will be created at `data/database.sqlite`.
+You can override the location using an environment variable:
 
 ```bash
 export SQLITE_PATH=./data/custom.sqlite
+```
+
+### 4. Start the development server
+
+```bash
+php -S localhost:8080 -t public
+```
+
+The API will be available at: [http://localhost:8080](http://localhost:8080)
+
+### 5. Run tests
+
+The project includes integration-level tests using PHPUnit and Guzzle. Tests simulate actual HTTP requests using a fresh test database.
+
+To run all tests:
+
+```bash
+./vendor/bin/phpunit tests
+```
+
+Each test run will:
+
+* Reset the test database (`data/database_test.sqlite`)
+* Create test users and groups
+* Validate all edge cases and HTTP response codes
+
+Example output:
+
+```
+OK (16 tests, 41 assertions)
 ```
 
 ## API Endpoints
@@ -93,37 +117,15 @@ export SQLITE_PATH=./data/custom.sqlite
 | POST   | `/groups/{id}/message`  | Send message to group  |
 | GET    | `/groups/{id}/messages` | List messages in group |
 
-Request bodies are expected to be in JSON format with `Content-Type: application/json`.
-
-## Running Tests
-
-All tests are integration-level and simulate actual HTTP requests using a fresh test database.
-
-To run all tests:
-
-```bash
-./vendor/bin/phpunit tests
-```
-
-Typical output:
-
-```
-OK (16 tests, 41 assertions)
-```
-
-Each test run will:
-
-* Reset the test database (`data/database_test.sqlite`)
-* Create test users and groups
-* Validate all edge cases and HTTP response codes
+Request bodies must be in JSON format with `Content-Type: application/json`.
 
 ## Optional Improvements
 
 The following features are not required but may be added:
 
-* **Frontend**: A simple HTML/JS page to interact with the API.
-* **Authentication**: Token-based system (e.g., JWT) to protect endpoints.
-* **Docker Support**: Dockerfile and `docker-compose.yml` for containerized setup.
+* Frontend: A simple HTML/JS page to interact with the API.
+* Authentication: Token-based system (e.g., JWT) to protect endpoints.
+* Docker Support: Dockerfile and `docker-compose.yml` for containerized setup.
 
 ## License
 
